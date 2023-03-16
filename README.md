@@ -31,8 +31,10 @@ const api = new HighriseAPI();
 // Get account info
 api.getAccountInfo().then(details => console.log(details));
 ```
-This will log your Highrise account information to the console, including your email address, account type, and available inventory slots.
+This will log your Highrise account information to the console, including your Highrise username, the link to your Immutable X account, your available balances for different currencies such as gold and cash, your privilege level, and your trust score. 
+
 ![Menu Demo 1](menuDemo1.png)
+
 
 ### Example 2: Get Items
 
