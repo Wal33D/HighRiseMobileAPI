@@ -7,7 +7,7 @@ This is a Node.js example of using the HighriseAPI to access your Highrise accou
 1. Clone this repository.
 2. Install dependencies: `npm install`
 3. Obtain your Highrise cookie. To obtain the cookie, you can log into your Highrise account on highrise.com and use the developer console to inspect the cookies. Alternatively, you can capture the cookies from an HTTP request using a tool like Fiddler or Wireshark. The cookie should contain two parts: `did` and `AIOHTTP_SESSION`, separated by a semicolon (`;`). Once you have the cookie value, you can pass it as a parameter to the `HighriseAPI` constructor to authenticate your API requests.
-4. Update the `cookie.json` file with your cookie value.
+4. Create the `cookie.json` file with your cookie value.
 5. Run the example: `npm start`
 
 ## Usage
