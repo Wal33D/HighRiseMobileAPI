@@ -17,6 +17,7 @@ async function handleChoice(choice) {
       break;
     case '2':
       const items = await api.getItems(0, 9999, 'date_descending', 'all', ['epic', 'rare', 'common','uncommon','legendary']);
+      console.log(items)
       break;
     case '3':
       const customCurrencies = await api.getCustomCurrencies();
