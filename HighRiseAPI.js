@@ -67,6 +67,23 @@ class HighriseAPI {
         const data = await response.json();
         return data;
     }
+    async createBot(name) {
+        const requestBody = JSON.stringify({
+            _type: 'CreateBotRequest',
+            username: name,
+        });
+
+        return await this.getData(requestBody);
+    }
+
+    async getUserProfile(username) {
+        const url = 'https://highrise.game/web/api';
+        const requestBody = JSON.stringify({
+            "_type": "GetUserProfileRequest",
+            "username": username
+        });
+        return await this.getData(requestBody);
+    }
 
 }
 
