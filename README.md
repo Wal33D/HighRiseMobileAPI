@@ -56,6 +56,8 @@ api.getItems(0, 20, 'date_descending', 'all', ['epic']).then(items => console.lo
 ```
 This will log an array of your Highrise items to the console, filtered to only include items with the 'epic' rarity.
 
+![Menu Demo 2](imgs/menuDemo2.png)
+
 ### Example 3: Generate HTML for Items
 ```js
 const HighriseAPI = require('./HighriseAPI.js');
@@ -68,6 +70,8 @@ api.getItems(0, 20, 'date_descending', 'all', ['epic'])
   .then(items => api.generateAndAppendHTML(items.items));
 ```
 This will generate an HTML string representing your Highrise items with the 'epic' rarity and log it to the console.
+
+![Menu Demo 3](imgs/menuDemo3.png)
 
 These are just a few examples of what you can do with the HighriseAPI. The API includes other methods as well, such as getting custom currencies and searching for items. You can refer to the HighriseAPI.js file for more information on the available methods and their parameters.
 
