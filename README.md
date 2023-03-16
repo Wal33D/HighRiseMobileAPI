@@ -32,6 +32,7 @@ const api = new HighriseAPI();
 api.getAccountInfo().then(details => console.log(details));
 ```
 This will log your Highrise account information to the console, including your email address, account type, and available inventory slots.
+![Menu Demo 1](menuDemo1.png)
 
 ### Example 2: Get Items
 
