@@ -54,7 +54,6 @@ const api = new HighriseAPI();
 // Get items
 api.getItems(0, 20, 'date_descending', 'all', ['epic']).then(items => console.log(items));
 ```
-This will log an array of your Highrise items to the console, filtered to only include items with the 'epic' rarity.
 
 ![Menu Demo 2](imgs/menuDemo2.png)
 
@@ -69,7 +68,6 @@ const api = new HighriseAPI();
 api.getItems(0, 20, 'date_descending', 'all', ['epic'])
   .then(items => api.generateAndAppendHTML(items.items));
 ```
-This will generate an HTML string representing your Highrise items with the 'epic' rarity and log it to the console.
 
 ![Menu Demo 3](imgs/menuDemo3.png)
 
