@@ -1,86 +1,80 @@
+const readline = require('readline');
 const HighriseAPI = require('./HighriseAPI');
 const api = new HighriseAPI();
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+const menuOptions = [
+  {number: '1', description: 'Get account info', action: () => api.getAccountInfo()},
+  {number: '2', description: 'Get items', action: () => api.getItems(0, 9999, 'date_descending', 'all', ['epic', 'rare', 'common', 'uncommon', 'legendary'])},
+  {number: '3', description: 'Get custom currencies', action: () => api.getCustomCurrencies()},
+  {number: '4', description: 'Create a new bot', action: createBot},
+  {number: '5', description: 'Get bots', action: () => api.getBots()},
+  {number: '6', description: 'Create an API token', action: createApiToken},
+  {number: '7', description: 'Get Bot API Keys', action: () => api.getBotAPIKeys()},
+  {number: '8', description: 'Get active sale', action: () => api.getActiveSale()},
+  {number: '9', description: 'Get user posts', action: getUserPosts},
+  {number: '10', description: 'Get user profile', action: getUserProfile},
+  {number: '11', description: 'Get land parcels', action: () => api.getLandParcels()},
+  {number: '12', description: 'Exit', action: () => process.exit()},
+];
 
 function displayMenu() {
-    console.log('Select an option:');
-    console.log('1. Get account info');
-    console.log('2. Get items');
-    console.log('3. Get custom currencies');
-    console.log('4. Create a new bot');
-    console.log('5. Get bots');
-    console.log('6. Create an API token');
-    console.log('7. Get Bot API Keys');
-    console.log('8. Exit');
+  console.log('Select an option:');
+  menuOptions.forEach(option => console.log(`${option.number}. ${option.description}`));
 }
 
 async function handleChoice(choice) {
-    switch (choice) {
-        case '1':
-            const accountInfo = await api.getAccountInfo();
-            console.log(accountInfo);
-            break;
-        case '2':
-            const items = await api.getItems(0, 9999, 'date_descending', 'all', ['epic', 'rare', 'common', 'uncommon', 'legendary']);
-            console.log(items);
-            break;
-        case '3':
-            const customCurrencies = await api.getCustomCurrencies();
-            console.log(customCurrencies);
-            break;
-        case '4':
-            const readline = require('readline').createInterface({
-                input: process.stdin,
-                output: process.stdout
-            });
-            readline.question('Enter bot username: ', async(username) => {
-                const result = await api.createBot(username);
-                readline.close();
-                console.log(result);
-                displayMenu();
-            });
-            return;
-        case '5':
-            const botList = await api.getBots();
-            console.log(JSON.stringify(botList, null, 2));
-            break;
-        case '6':
-            const readlineApi = require('readline').createInterface({
-                input: process.stdin,
-                output: process.stdout
-            });
-            readlineApi.question('Enter bot ID: ', async(botId) => {
-                const result = await api.createApiToken(botId);
-                readlineApi.close();
-                console.log(result);
-                displayMenu();
-            });
-            return;
-        case '7':
-            const botAPIKeys = await api.getBotAPIKeys();
-            console.log(JSON.stringify(botAPIKeys, null, 2));
-            break;
-        case '8':
-            console.log('Exiting...');
-            process.exit();
-            break;
-        default:
-            console.log('Invalid choice');
-            break;
-    }
-    displayMenu();
+  const selectedOption = menuOptions.find(option => option.number === choice);
+  if (selectedOption) {
+    const result = await selectedOption.action();
+    console.log(JSON.stringify(result, null, 2));
+  } else {
+    console.log('Invalid choice');
+  }
+  displayMenu();
 }
 
-function promptUser() {
-    const readline = require('readline').createInterface({
-        input: process.stdin,
-        output: null
-    });
-    readline.question('Enter your choice: ', async(choice) => {
-        await handleChoice(choice);
-        readline.close();
-        promptUser();
-    });
+async function createBot() {
+  const username = await askQuestion('Enter bot username: ');
+  const result = await api.createBot(username);
+  console.log(result);
+  displayMenu();
 }
 
-displayMenu();
-promptUser();
+async function createApiToken() {
+  const botId = await askQuestion('Enter bot ID: ');
+  const result = await api.createApiToken(botId);
+  console.log(result);
+  displayMenu();
+}
+
+async function getUserPosts() {
+  const userId = await askQuestion('Enter user ID: ');
+  const result = await api.getUserPosts(userId);
+  console.log(JSON.stringify(result, null, 2));
+  displayMenu();
+}
+
+async function getUserProfile() {
+  const username = await askQuestion('Enter username: ');
+  const result = await api.getUserProfile(username);
+  console.log(JSON.stringify(result, null, 2));
+  displayMenu();
+}
+
+function askQuestion(question) {
+  return new Promise(resolve => {
+    rl.question(question, answer => resolve(answer));
+  });
+}
+
+async function start() {
+  displayMenu();
+  for await (const choice of rl) {
+    await handleChoice(choice);
+  }
+}
+
+start();

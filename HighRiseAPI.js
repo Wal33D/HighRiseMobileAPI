@@ -113,6 +113,41 @@ class HighriseAPI {
 
         return credentials;
     }
+
+    async getActiveSale() {
+        const requestBody = JSON.stringify({
+            "_type": "GetActiveSaleRequest"
+        });
+        const response = await this.getData(requestBody);
+        return response;
+    }
+
+    async getUserPosts(userId) {
+        const requestBody = JSON.stringify({
+            "_type": "GetUserPostsRequest",
+            "user_id": userId
+        });
+        const response = await this.getData(requestBody);
+        return response;
+    }
+
+    async getUserProfile(username) {
+        const requestBody = JSON.stringify({
+            "_type": "GetUserProfileRequest",
+            "username": username
+        });
+        const response = await this.getData(requestBody);
+        return response;
+    }
+    async getLandParcels(limit = 20, offset = 0) {
+        const requestBody = JSON.stringify({
+            "_type": "GetLandParcelsRequest",
+            "limit": limit,
+            "offset": offset
+        });
+        const response = await this.getData(requestBody);
+        return response;
+    }
 }
 
 module.exports = HighriseAPI;
