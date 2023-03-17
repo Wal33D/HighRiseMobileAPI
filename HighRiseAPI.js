@@ -36,7 +36,8 @@ class HighriseAPI {
         const requestBody = JSON.stringify({
             "_type": "GetAccountInfoRequest"
         });
-        return await this.getData(requestBody);
+        const response = await this.getData(requestBody);
+        return response;
     }
 
     async getItems(page = 0, limit = 20, sort = 'date_descending', type = 'all', rarity = []) {
@@ -48,7 +49,8 @@ class HighriseAPI {
             "type": type,
             "rarity": rarity
         });
-        return await this.getData(requestBody);
+        const response = await this.getData(requestBody);
+        return response;
     }
 
     async getCustomCurrencies() {
@@ -67,24 +69,51 @@ class HighriseAPI {
         const data = await response.json();
         return data;
     }
+
     async createBot(name) {
         const requestBody = JSON.stringify({
             _type: 'CreateBotRequest',
             username: name,
         });
-
-        return await this.getData(requestBody);
+        const response = await this.getData(requestBody);
+        return response;
     }
 
-    async getUserProfile(username) {
-        const url = 'https://highrise.game/web/api';
+    async getBots() {
         const requestBody = JSON.stringify({
-            "_type": "GetUserProfileRequest",
-            "username": username
+            _type: 'GetBotsRequest'
         });
-        return await this.getData(requestBody);
+
+        const response = await this.getData(requestBody);
+        return response;
     }
+
+    async createApiToken(botId) {
+        const requestBody = JSON.stringify({
+            "_type": "CreateApiTokenRequest",
+            "bot_id": botId
+        });
+        const response = await this.getData(requestBody);
+        return response;
+    }
+
+    async getBotAPIKeys() {
+        const botList = await this.getBots();
+        const credentials = [];
+
+        botList.user_infos.forEach((user) => {
+            if (user[1] && typeof user[1] === 'string') {
+                credentials.push({
+                    user_id: user[0].user_id,
+                    username: user[0].username,
+                    api_key: user[1]
+                });
+            }
+        });
+
+        return credentials;
+    }
+
 
 }
-
 module.exports = HighriseAPI;

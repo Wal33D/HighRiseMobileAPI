@@ -7,8 +7,10 @@ function displayMenu() {
     console.log('2. Get items');
     console.log('3. Get custom currencies');
     console.log('4. Create a new bot');
-    console.log('5. Get user profile');
-    console.log('6. Exit');
+    console.log('5. Get bots');
+    console.log('6. Create an API token');
+    console.log('7. Get Bot API Keys');
+    console.log('8. Exit');
 }
 
 async function handleChoice(choice) {
@@ -19,7 +21,7 @@ async function handleChoice(choice) {
             break;
         case '2':
             const items = await api.getItems(0, 9999, 'date_descending', 'all', ['epic', 'rare', 'common', 'uncommon', 'legendary']);
-            console.log(items)
+            console.log(items);
             break;
         case '3':
             const customCurrencies = await api.getCustomCurrencies();
@@ -33,23 +35,31 @@ async function handleChoice(choice) {
             readline.question('Enter bot username: ', async(username) => {
                 const result = await api.createBot(username);
                 readline.close();
-                console.log(result)
+                console.log(result);
                 displayMenu();
             });
             return;
         case '5':
-            const readline2 = require('readline').createInterface({
+            const botList = await api.getBots();
+            console.log(JSON.stringify(botList, null, 2));
+            break;
+        case '6':
+            const readlineApi = require('readline').createInterface({
                 input: process.stdin,
                 output: process.stdout
             });
-            readline2.question('Enter username: ', async(username) => {
-                const userProfile = await api.getUserProfile(username);
-                readline2.close();
-                console.log(userProfile);
+            readlineApi.question('Enter bot ID: ', async(botId) => {
+                const result = await api.createApiToken(botId);
+                readlineApi.close();
+                console.log(result);
                 displayMenu();
             });
             return;
-        case '6':
+        case '7':
+            const botAPIKeys = await api.getBotAPIKeys();
+            console.log(JSON.stringify(botAPIKeys, null, 2));
+            break;
+        case '8':
             console.log('Exiting...');
             process.exit();
             break;
@@ -60,13 +70,11 @@ async function handleChoice(choice) {
     displayMenu();
 }
 
-
 function promptUser() {
     const readline = require('readline').createInterface({
         input: process.stdin,
         output: null
     });
-
     readline.question('Enter your choice: ', async(choice) => {
         await handleChoice(choice);
         readline.close();
