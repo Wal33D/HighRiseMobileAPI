@@ -113,7 +113,6 @@ class HighriseAPI {
 
         return credentials;
     }
-
-
 }
+
 module.exports = HighriseAPI;
