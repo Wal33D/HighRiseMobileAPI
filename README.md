@@ -1,6 +1,6 @@
 # HighriseAPI Node.js Example
 
-This is a Node.js example of using the HighriseAPI to access your Highrise account information. It includes methods to get your account info, get items, and get custom currencies. 
+This is a Node.js example of using the HighriseAPI to access your Highrise account information. It includes methods to get your account info, get items, get custom currencies, create a bot, create API token, and get bot API keys.
 
 ## Getting Started
 
@@ -17,6 +17,10 @@ This example includes a simple command-line menu that allows you to select an ac
 1. Get account info
 2. Get items
 3. Get custom currencies
+4. Create bot
+5. Get bots
+6. Create API token
+7. Get bot API keys
 
 To select an option, enter the corresponding number and press enter. The program will then perform the selected action and return the results.
 
@@ -30,6 +34,7 @@ const api = new HighriseAPI();
 
 // Get account info
 api.getAccountInfo().then(details => console.log(details));
+
 ```
 This will log your Highrise account information to the console, including your Highrise username, the link to your Immutable X account, your available balances for different currencies such as gold and cash, your privilege level, and your trust score. 
 
